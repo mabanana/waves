@@ -1,19 +1,46 @@
-[gd_scene load_steps=4 format=3 uid="uid://ccma600lghumf"]
+[gd_scene load_steps=6 format=3 uid="uid://ccma600lghumf"]
 
-[ext_resource type="Shader" uid="uid://ripdgtfwiswt" path="res://wave_shape.gdshader" id="1_c8fuu"]
+[ext_resource type="Shader" uid="uid://bahviydrsu2t8" path="res://toon_waves.gdshader" id="1_vf2kl"]
+[ext_resource type="Texture2D" uid="uid://bsek8ahde4q2b" path="res://eunique-deeann--oK7LnDmtk0-unsplash.jpg" id="2_oujlm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vf2kl"]
 render_priority = 0
-shader = ExtResource("1_c8fuu")
+shader = ExtResource("1_vf2kl")
+shader_parameter/slide_speed = 0.7
+shader_parameter/wobble_speed = 3.0
+shader_parameter/wobble_intensity = 1.7
+shader_parameter/texture_scale = 0.05
+shader_parameter/wave_height = 2.0
+shader_parameter/curvature = 300.0
+shader_parameter/water = ExtResource("2_oujlm")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_oujlm"]
 material = SubResource("ShaderMaterial_vf2kl")
-size = Vector2(50, 50)
-subdivide_width = 15
-subdivide_depth = 15
+size = Vector2(500, 100)
+subdivide_width = 25
+subdivide_depth = 25
+
+[sub_resource type="Environment" id="Environment_vf2kl"]
+adjustment_enabled = true
 
 [node name="WaveScene" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.51809, 0)
 mesh = SubResource("PlaneMesh_oujlm")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.37114e-08, -0.0941083, -0.995562, 0, 0.995562, -0.0941083, 1, -4.11361e-09, -4.35174e-08, 0, 7.84654, 0)
+fov = 89.147
+far = 94.06
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
+light_energy = 4.232
+light_indirect_energy = 12.152
+omni_range = 100.0
+omni_attenuation = 0.192
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vf2kl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.0329963, -0.97339, -0.226767, -0.0931545, -0.228898, 0.968983, -0.995105, -0.0108485, -0.0982284, 0, 19.8482, 0)
