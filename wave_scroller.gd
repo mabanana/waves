@@ -1,12 +1,13 @@
 extends Node2D
 
 @export var sprite: Sprite2D
+@export var exhaust_particle: GPUParticles2D
 
 const _amplitude = 50.0
-const _wave = 5.0
+const _wave = 3.0
 const _wave_length = 20.0
 const _speed_limit = 10.0
-const _unit = 100.0
+const _unit = 10.0
 var _acceleration = 1.0
 
 var x_seed:= randf()+0.5
@@ -47,15 +48,19 @@ func _process(delta):
 	sprite.offset.x = sin(msec * y_seed * speed) * _wave
 	wave_length = _wave_length * progress / (_unit + progress) + _wave_length
 	amplitude = _amplitude * (progress) / (_unit + progress) + _wave
-	speed_limit = _speed_limit + (progress / _unit) * _speed_limit
+	speed_limit = _speed_limit + (progress / _unit)
 	acceleration = _acceleration + (progress / _unit / _speed_limit) * _acceleration
 	
 	if accelerating:
 		speed += acceleration * delta
+		var dest_scale = Vector2.ONE * (1.0 - speed / speed_limit * 0.4)
+		sprite.scale = dest_scale
+		sprite.scale = Vector2(clamp(sprite.scale.x, 0.9, 1), clamp(sprite.scale.y, 0.9, 1))
 		speed = clamp(speed, 0, speed_limit)
 	else:
 		speed = move_toward(speed, 0.0, _speed_limit * speed / speed_limit * delta)
-
+		sprite.scale = sprite.scale.move_toward(Vector2.ONE, delta / _unit)
+	
 	for property in labels.keys():
 		var value = snapped(get(property), 0.01) if property != "accelerating" else get(property)
 		labels[property].text = "%s: %s" % [property, str(value)]
@@ -63,5 +68,7 @@ func _process(delta):
 func _input(event):
 	if event.is_action_pressed("accelerate"):
 		accelerating = true
+		exhaust_particle.amount_ratio = 1.0
 	elif event.is_action_released("accelerate"):
 		accelerating = false
+		exhaust_particle.amount_ratio = 0.3

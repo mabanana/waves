@@ -2,13 +2,13 @@ shader_type spatial;
 ///////////////// NORMAL RECONSTRUCT ALGORITHM ////////////////
 
 vec3 GerstnerWave_CalculateNormal(
-float input_wave_sin, 
-float input_wave_cos, 
+float input_wave_sin,
+float input_wave_cos,
 float input_wave_height_scaled,
 vec3 input_wave_direction_normalized,
 float input_steepness_ratio)
 {
-    
+
     // Normal calculation
     float sin_component = input_wave_sin * input_wave_height_scaled;
     float cos_component = input_wave_cos * input_wave_height_scaled;
@@ -60,7 +60,7 @@ void vertex() {
 
 	// Final vertex offset
 	vec3 wave_vertex_offset = vertical_displacement - horizontal_displacement;
-	
+
 	// Final Normal Reconsctruct
 	vec3 normal_reconstruct = GerstnerWave_CalculateNormal(
 	    wave_sin,
@@ -68,7 +68,7 @@ void vertex() {
 	    wave_height_scaled,
 	    wave_direction_normalized,
 	    steepness_ratio);
-	
+
 	VERTEX += wave_vertex_offset;
 	NORMAL += normal_reconstruct;
 }

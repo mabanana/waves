@@ -1,14 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://c72l75yy5r0bq"]
+[gd_scene load_steps=4 format=3 uid="uid://c72l75yy5r0bq"]
 
 [ext_resource type="Script" uid="uid://0o1va8if8h8w" path="res://wave_scroller.gd" id="1_ex7g5"]
 [ext_resource type="Texture2D" uid="uid://b1u76hyp8l32d" path="res://icon.svg" id="2_fwhko"]
 
-[node name="WaveScroller" type="Node2D" node_paths=PackedStringArray("sprite")]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ex7g5"]
+particle_flag_disable_z = true
+spread = 112.771
+initial_velocity_min = 155.17
+initial_velocity_max = 281.61
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = 513.1
+gravity = Vector3(0, -20, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = 27.59
+scale_min = 0.05
+scale_max = 0.2
+color = Color(1, 0.87, 0.987, 1)
+hue_variation_min = -0.16
+hue_variation_max = 0.11
+
+[node name="WaveScroller" type="Node2D" node_paths=PackedStringArray("sprite", "exhaust_particle")]
 script = ExtResource("1_ex7g5")
 sprite = NodePath("Icon")
+exhaust_particle = NodePath("Icon/GPUParticles2D")
 
 [node name="Icon" type="Sprite2D" parent="."]
+z_index = 1
 texture = ExtResource("2_fwhko")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Icon"]
+z_index = 2
+rotation = 1.5708
+amount = 75
+amount_ratio = 0.219
+texture = ExtResource("2_fwhko")
+process_material = SubResource("ParticleProcessMaterial_ex7g5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
