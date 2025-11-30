@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://ccma600lghumf"]
+[gd_scene load_steps=9 format=3 uid="uid://ccma600lghumf"]
 
+[ext_resource type="Script" uid="uid://nskrat3y66cs" path="res://wave_scene.gd" id="1_oujlm"]
 [ext_resource type="Shader" uid="uid://bahviydrsu2t8" path="res://toon_waves.gdshader" id="1_vf2kl"]
 [ext_resource type="Texture2D" uid="uid://bsek8ahde4q2b" path="res://eunique-deeann--oK7LnDmtk0-unsplash.jpg" id="2_oujlm"]
 
@@ -26,7 +27,22 @@ subdivide_depth = 25
 [sub_resource type="Environment" id="Environment_vf2kl"]
 adjustment_enabled = true
 
-[node name="WaveScene" type="Node3D"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vf2kl"]
+emission_enabled = true
+emission = Color(0.73, 0.73, 0.73, 1)
+emission_energy_multiplier = 12.73
+emission_operator = 1
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oujlm"]
+material = SubResource("StandardMaterial3D_vf2kl")
+radius = 5.447
+height = 31.684
+
+[node name="WaveScene" type="Node3D" node_paths=PackedStringArray("camera", "markers", "light3d")]
+script = ExtResource("1_oujlm")
+camera = NodePath("Camera3D")
+markers = [NodePath("Marker1"), NodePath("Marker2"), NodePath("Marker3"), NodePath("Marker4"), NodePath("Marker5")]
+light3d = NodePath("DirectionalLight3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_oujlm")
@@ -47,3 +63,33 @@ environment = SubResource("Environment_vf2kl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0329963, -0.97339, -0.226767, -0.0931545, -0.228898, 0.968983, -0.995105, -0.0108485, -0.0982284, 0, 19.8482, 0)
+
+[node name="Marker1" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5529, 53.4964, -35)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker1"]
+mesh = SubResource("CapsuleMesh_oujlm")
+
+[node name="Marker2" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5534, 30.9269, -20)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker2"]
+mesh = SubResource("CapsuleMesh_oujlm")
+
+[node name="Marker3" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5529, 21.9083, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker3"]
+mesh = SubResource("CapsuleMesh_oujlm")
+
+[node name="Marker4" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5534, 30.9269, 20)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker4"]
+mesh = SubResource("CapsuleMesh_oujlm")
+
+[node name="Marker5" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5529, 53.4964, 35)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Marker5"]
+mesh = SubResource("CapsuleMesh_oujlm")
