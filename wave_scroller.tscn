@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c72l75yy5r0bq"]
+[gd_scene load_steps=13 format=3 uid="uid://c72l75yy5r0bq"]
 
 [ext_resource type="Script" uid="uid://0o1va8if8h8w" path="res://wave_scroller.gd" id="1_ex7g5"]
 [ext_resource type="Texture2D" uid="uid://b1u76hyp8l32d" path="res://icon.svg" id="2_fwhko"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://3anoi7pe0oio" path="res://wave.ogg" id="5_f8bmd"]
 [ext_resource type="Script" uid="uid://d3y0wklf13l6n" path="res://music_controller.gd" id="6_4sxhh"]
 [ext_resource type="Script" uid="uid://k65m3d8v3ewm" path="res://shader_controller.gd" id="7_uej3w"]
+[ext_resource type="Script" uid="uid://b334wvs0knpo6" path="res://enemy_spawner.gd" id="8_jrdne"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f8bmd"]
 shader = ExtResource("3_hysyj")
@@ -119,3 +120,7 @@ script = ExtResource("7_uej3w")
 main = NodePath("..")
 wave_scene = NodePath("../CanvasLayer/SubViewportContainer/SubViewport/WaveScene")
 music_controller = NodePath("../MusicController")
+
+[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("wave_scene")]
+script = ExtResource("8_jrdne")
+wave_scene = NodePath("../CanvasLayer/SubViewportContainer/SubViewport/WaveScene")

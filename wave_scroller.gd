@@ -4,6 +4,8 @@ class_name Main
 @export var sprite: Sprite2D
 @export var exhaust_particle: GPUParticles2D
 
+@onready var enemy_mesh := preload("res://enemy.tscn")
+
 const _amplitude = 50.0
 const _wave = 3.0
 const _wave_length = 30.0
