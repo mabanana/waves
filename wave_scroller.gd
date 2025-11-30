@@ -1,13 +1,14 @@
 extends Node2D
+class_name Main
 
 @export var sprite: Sprite2D
 @export var exhaust_particle: GPUParticles2D
 
 const _amplitude = 50.0
 const _wave = 3.0
-const _wave_length = 20.0
-const _speed_limit = 10.0
-const _unit = 10.0
+const _wave_length = 30.0
+const _speed_limit = 8.0
+const _unit = 100.0
 var _acceleration = 1.0
 
 var x_seed:= randf()+0.5

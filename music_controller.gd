@@ -1,4 +1,5 @@
 extends Node
+class_name MusicController
 @export var main_loop: AudioStreamPlayer
 const main_track := preload("res://wave.ogg")
 

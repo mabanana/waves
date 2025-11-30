@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c72l75yy5r0bq"]
+[gd_scene load_steps=12 format=3 uid="uid://c72l75yy5r0bq"]
 
 [ext_resource type="Script" uid="uid://0o1va8if8h8w" path="res://wave_scroller.gd" id="1_ex7g5"]
 [ext_resource type="Texture2D" uid="uid://b1u76hyp8l32d" path="res://icon.svg" id="2_fwhko"]
@@ -6,6 +6,7 @@
 [ext_resource type="Shader" uid="uid://sdrg3m4atwd4" path="res://volumetric_waves.gdshader" id="3_hysyj"]
 [ext_resource type="AudioStream" uid="uid://3anoi7pe0oio" path="res://wave.ogg" id="5_f8bmd"]
 [ext_resource type="Script" uid="uid://d3y0wklf13l6n" path="res://music_controller.gd" id="6_4sxhh"]
+[ext_resource type="Script" uid="uid://k65m3d8v3ewm" path="res://shader_controller.gd" id="7_uej3w"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f8bmd"]
 shader = ExtResource("3_hysyj")
@@ -112,3 +113,9 @@ parameters/looping = true
 [node name="MusicController" type="Node" parent="." node_paths=PackedStringArray("main_loop")]
 script = ExtResource("6_4sxhh")
 main_loop = NodePath("../AudioStreamPlayer")
+
+[node name="ShaderController" type="Node" parent="." node_paths=PackedStringArray("main", "wave_scene", "music_controller")]
+script = ExtResource("7_uej3w")
+main = NodePath("..")
+wave_scene = NodePath("../CanvasLayer/SubViewportContainer/SubViewport/WaveScene")
+music_controller = NodePath("../MusicController")

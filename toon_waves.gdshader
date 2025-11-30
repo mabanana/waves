@@ -8,7 +8,14 @@ uniform float wobble_intensity = 0.4;
 uniform float texture_scale = 0.2;
 uniform float wave_height = 0.4;
 uniform float curvature = 20.0;
+uniform float bpm = 130;
+uniform float bounce_psec = 1.0;
+uniform float music_effect = 0.3;
+varying float time_scale;
+varying float bps;
 uniform sampler2D water : repeat_enable;
+
+
 
 // https://godotshaders.com/shader/shield-shader-with-intersection-highlight/
 uniform sampler2D depth_texture : source_color, hint_depth_texture;
@@ -16,11 +23,13 @@ uniform sampler2D depth_texture : source_color, hint_depth_texture;
 varying vec2 sample_choord;
 
 void vertex() {
-
+	bps = bounce_psec * 10.0 * TIME / PI * bpm / 60.0;
+	time_scale = 1.0 - music_effect * sin(bps);
 	VERTEX.y += sin(TIME * wobble_speed + (VERTEX.x + VERTEX.z) * 0.3) * wave_height;
 	NORMAL -= cos(TIME * wobble_speed + (VERTEX.x + VERTEX.z) * 0.3) * wave_height;
 	VERTEX.y += sin(TIME * wobble_speed + (VERTEX.x - VERTEX.z) / 12.0) * wave_height;
 	NORMAL -= cos(TIME * wobble_speed + (VERTEX.x - VERTEX.z) / 12.0) * wave_height;
+	VERTEX.y += sin(TIME * time_scale + (VERTEX.z * VERTEX.z) / 12.0) * 1.2 * wave_height;
 	sample_choord = VERTEX.xz;
 	vec2 mid = vec2(0.5, 0.5);
 	VERTEX.y += (distance(mid, UV) * distance(mid, UV)) * curvature;
@@ -57,5 +66,5 @@ void fragment() {
 	float linear_object_depth = -object_view.z;
 
 	ALBEDO = mix(color1, color2, smoothstep(0.0, 4.0, linear_depth - linear_object_depth));
-	ALBEDO = mix(color2, ALBEDO, -0.25);
+	ALBEDO = mix(color2, ALBEDO, -0.25 + 0.02*sin(bps));
 }

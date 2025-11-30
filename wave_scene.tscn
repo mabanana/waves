@@ -10,8 +10,11 @@ shader_parameter/slide_speed = 0.7
 shader_parameter/wobble_speed = 3.0
 shader_parameter/wobble_intensity = 1.7
 shader_parameter/texture_scale = 0.05
-shader_parameter/wave_height = 2.0
+shader_parameter/wave_height = 1.2
 shader_parameter/curvature = 300.0
+shader_parameter/bpm = 130.0
+shader_parameter/bounce_psec = 0.1
+shader_parameter/music_effect = 0.05
 shader_parameter/water = ExtResource("2_oujlm")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_oujlm"]
