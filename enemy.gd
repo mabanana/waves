@@ -23,7 +23,7 @@ func _process(delta):
 	for i in range(len(balls)):
 		balls[i] = balls[i].rotated(rotate, ang_speed)
 		new_radi.append(radi[i] * sin(Time.get_ticks_msec() / 1000))
-	print(balls)
+	#print(balls)
 	material.set_shader_parameter("ball_pos", PackedVector3Array(balls))
 	material.set_shader_parameter("radi", radi)
 	pass

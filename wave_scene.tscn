@@ -49,7 +49,7 @@ mesh = SubResource("PlaneMesh_oujlm")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, -0.0941083, -0.995562, 0, 0.995562, -0.0941083, 1, -4.11361e-09, -4.35174e-08, 0, 7.84654, 0)
-fov = 89.147
+fov = 101.0
 far = 94.06
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
@@ -63,33 +63,42 @@ environment = SubResource("Environment_vf2kl")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.0329963, -0.97339, -0.226767, -0.0931545, -0.228898, 0.968983, -0.995105, -0.0108485, -0.0982284, 0, 19.8482, 0)
+light_color = Color(0.72, 0.738, 0.9, 1)
+light_energy = 0.515
+light_indirect_energy = 1.485
+light_specular = 2.778
 
 [node name="Marker1" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5529, 53.4964, -35)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Marker1"]
 mesh = SubResource("CapsuleMesh_oujlm")
 
 [node name="Marker2" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5534, 30.9269, -20)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Marker2"]
 mesh = SubResource("CapsuleMesh_oujlm")
 
 [node name="Marker3" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5529, 21.9083, 0)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Marker3"]
 mesh = SubResource("CapsuleMesh_oujlm")
 
 [node name="Marker4" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5534, 30.9269, 20)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Marker4"]
 mesh = SubResource("CapsuleMesh_oujlm")
 
 [node name="Marker5" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.5529, 53.4964, 35)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Marker5"]
 mesh = SubResource("CapsuleMesh_oujlm")

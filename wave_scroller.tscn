@@ -121,6 +121,7 @@ main = NodePath("..")
 wave_scene = NodePath("../CanvasLayer/SubViewportContainer/SubViewport/WaveScene")
 music_controller = NodePath("../MusicController")
 
-[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("wave_scene")]
+[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("main", "wave_scene")]
 script = ExtResource("8_jrdne")
+main = NodePath("..")
 wave_scene = NodePath("../CanvasLayer/SubViewportContainer/SubViewport/WaveScene")

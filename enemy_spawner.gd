@@ -1,13 +1,37 @@
 extends Node
 class_name EnemySpawner
 
-@export var wave_scene: Node3D
+@onready var enemy_mesh := preload("res://enemy.tscn")
 
-# Called when the node enters the scene tree for the first time.
+@export var main: Main
+@export var wave_scene: WaveScene
+var markers: Array[Marker3D]
+var camera: Camera3D
+
+var stop = false
+var tween_duration := 4.0
+var spawn_interval := 2.0
+
 func _ready():
-	pass # Replace with function body.
+	markers = wave_scene.markers
+	camera = wave_scene.camera
+	spawn_enemy()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func spawn_enemy():
+	if stop: return
+	
+	
+	var marker_index = randi_range(0, len(markers) - 1)
+	print(marker_index)
+	var marker = markers[marker_index]
+	var marker_offset = marker.position - markers[2].position
+	var new_enemy := enemy_mesh.instantiate()
+	new_enemy.position = marker.position + Vector3.UP * 40
+	wave_scene.add_child(new_enemy)
+	var tween := get_tree().create_tween()
+	tween.set_trans(Tween.TRANS_QUAD)
+	var duration = clamp(tween_duration - main.speed / 10.0, 0.2, tween_duration)
+	tween.tween_property(new_enemy, "position", camera.position + Vector3.DOWN*2, duration)
+	tween.finished.connect(new_enemy.free)
+	await get_tree().create_timer(spawn_interval).timeout
+	spawn_enemy()
