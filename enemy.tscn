@@ -6,8 +6,8 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qi2p4"]
 render_priority = 0
 shader = ExtResource("1_7k104")
-shader_parameter/ball_pos = PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-shader_parameter/radi = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/ball_pos = PackedVector3Array()
+shader_parameter/radi = PackedFloat32Array()
 shader_parameter/blend_r = 0.5
 shader_parameter/base_color = Color(0.175, 0.5, 0.45125, 1)
 shader_parameter/fresnel_color = Color(0.77, 0.2156, 0.76076, 1)
@@ -16,7 +16,10 @@ shader_parameter/fresnel_emition = 7.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_iifgy"]
 material = SubResource("ShaderMaterial_qi2p4")
+size = Vector3(2, 2, 2)
 
 [node name="Enemy" type="MeshInstance3D"]
 mesh = SubResource("BoxMesh_iifgy")
 script = ExtResource("2_4gyqm")
+volatility = 5.0
+ang_speed = 1.0

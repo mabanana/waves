@@ -81,5 +81,5 @@ func go_to_loop(index: int):
 		loop = 0
 
 func _input(event):
-	if event.is_action_pressed("ui_right"):
+	if OS.is_debug_build() and event.is_action_pressed("ui_right"):
 		go_to_loop(loop+1)
