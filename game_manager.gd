@@ -12,7 +12,7 @@ var wave_num
 var wave_countdown
 var game_started = false
 var between_duration = 8
-var total_waves = 8
+var total_waves = 6
 
 func _ready():
 	music_controller.bar_started.connect(func(bar_num):

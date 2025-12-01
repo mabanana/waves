@@ -19,7 +19,7 @@ var _acceleration = 1.0
 var x_seed:= randf()+0.5
 var y_seed:= randf()+0.5
 
-var progress = 1
+var progress = 0
 var speed = 0
 var amplitude = _amplitude
 var wave_length = _wave_length
@@ -78,7 +78,7 @@ func _process(delta):
 		labels[property].text = "%s: %s" % [property, str(value)]
 	
 	var score_text = []
-	var score = int(progress)
+	var score = int(progress * 1000)
 	var i = 0
 	while i < len(score_label.text):
 		score_text.append(str(score % 10))
