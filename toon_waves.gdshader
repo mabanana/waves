@@ -11,11 +11,11 @@ uniform float curvature = 20.0;
 uniform float bpm = 130;
 uniform float bounce_psec = 1.0;
 uniform float music_effect = 0.3;
+uniform float time_offset = 0.0;
+uniform float progress = 0.0;
 varying float time_scale;
 varying float bps;
 uniform sampler2D water : repeat_enable;
-
-
 
 // https://godotshaders.com/shader/shield-shader-with-intersection-highlight/
 uniform sampler2D depth_texture : source_color, hint_depth_texture;
@@ -25,11 +25,11 @@ varying vec2 sample_choord;
 void vertex() {
 	bps = bounce_psec * 10.0 * TIME / PI * bpm / 60.0;
 	time_scale = 1.0 - music_effect * sin(bps);
-	VERTEX.y += sin(TIME * wobble_speed + (VERTEX.x + VERTEX.z) * 0.3) * wave_height;
-	NORMAL -= cos(TIME * wobble_speed + (VERTEX.x + VERTEX.z) * 0.3) * wave_height;
-	VERTEX.y += sin(TIME * wobble_speed + (VERTEX.x - VERTEX.z) / 12.0) * wave_height;
-	NORMAL -= cos(TIME * wobble_speed + (VERTEX.x - VERTEX.z) / 12.0) * wave_height;
-	VERTEX.y += sin(TIME * time_scale + (VERTEX.z * VERTEX.z) / 12.0) * 1.2 * wave_height;
+	VERTEX.y += sin(TIME * wobble_speed + (VERTEX.x + VERTEX.z) * 0.3 - time_offset) * wave_height;
+	NORMAL -= cos(TIME * wobble_speed + (VERTEX.x + VERTEX.z) * 0.3 - time_offset) * wave_height;
+	VERTEX.y += sin(TIME * wobble_speed + (VERTEX.x - VERTEX.z) / 12.0 - time_offset) * wave_height;
+	NORMAL -= cos(TIME * wobble_speed + (VERTEX.x - VERTEX.z) / 12.0 - time_offset) * wave_height;
+	VERTEX.y += sin(TIME * time_scale + (VERTEX.z * VERTEX.z) / 12.0 - time_offset) * 1.2 * wave_height;
 	sample_choord = VERTEX.xz;
 	vec2 mid = vec2(0.5, 0.5);
 	VERTEX.y += (distance(mid, UV) * distance(mid, UV)) * curvature;
@@ -46,8 +46,8 @@ void fragment() {
 	vec3 color2 = texture(
 		water,
 		vec2(
-			(sample_choord.x + sin(TIME * wobble_speed) * wobble_intensity + TIME * slide_speed) * texture_scale,
-			(sample_choord.y + cos(TIME * wobble_speed * 0.5) * wobble_intensity) * texture_scale * 3024.0 / 4032.0 // AWOOGA the texture I used was 2:1 AR, so put "* 2.0" if you're gonna use it
+			progress / 3.0 + (sample_choord.x + sin(TIME * wobble_speed - time_offset) * wobble_intensity + TIME * slide_speed) * texture_scale,
+			(sample_choord.y + cos(TIME * wobble_speed * 0.5 - time_offset) * wobble_intensity) * texture_scale * 3024.0 / 4032.0// AWOOGA the texture I used was 2:1 AR, so put "* 2.0" if you're gonna use it
 		)
 	).rgb;
 
@@ -67,4 +67,6 @@ void fragment() {
 
 	ALBEDO = mix(color1, color2, smoothstep(0.0, 4.0, linear_depth - linear_object_depth));
 	ALBEDO = mix(color2, ALBEDO, -0.25 + 0.02*sin(bps));
+	ALPHA = (-object_view.y + 0.08) * 10.0;
+	ALPHA += 0.0;
 }

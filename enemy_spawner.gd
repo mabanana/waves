@@ -25,7 +25,7 @@ func spawn_enemy():
 	var marker_index = randi_range(0, len(markers) - 1)
 	#print(marker_index)
 	var marker = markers[marker_index]
-	var marker_offset = marker.position - markers[2].position
+	var marker_offset = (marker.position - markers[2].position) / 60.0
 	var new_enemy := enemy_mesh.instantiate()
 	new_enemy.position = marker.position + Vector3.UP * 40
 	wave_scene.add_child(new_enemy)
@@ -33,8 +33,9 @@ func spawn_enemy():
 	tween.set_trans(Tween.TRANS_QUAD)
 	
 	var duration = clamp(tween_duration - main.speed / 10.0, 0.2, tween_duration)
-	var interval = clamp(spawn_interval - float(main.progress / main._unit), 0.1, tween_duration)
-	var tween_dest = camera.position + Vector3.DOWN*2
+	var interval = clamp(spawn_interval , 0.07, tween_duration)
+	#print(interval)
+	var tween_dest = camera.position + Vector3.DOWN*2 + marker_offset
 	tween_dest += (new_enemy.position - tween_dest).normalized() * 2.5
 	
 	tween.tween_property(new_enemy, "position", tween_dest, duration)

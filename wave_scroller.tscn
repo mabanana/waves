@@ -1,31 +1,17 @@
-[gd_scene load_steps=15 format=3 uid="uid://c72l75yy5r0bq"]
+[gd_scene load_steps=18 format=3 uid="uid://c72l75yy5r0bq"]
 
 [ext_resource type="Script" uid="uid://0o1va8if8h8w" path="res://wave_scroller.gd" id="1_ex7g5"]
 [ext_resource type="Script" uid="uid://bh016xjcphhjp" path="res://player.gd" id="2_bnwxl"]
 [ext_resource type="Texture2D" uid="uid://b1u76hyp8l32d" path="res://icon.svg" id="2_fwhko"]
 [ext_resource type="PackedScene" uid="uid://ccma600lghumf" path="res://wave_scene.tscn" id="3_fwhko"]
 [ext_resource type="Shader" uid="uid://sdrg3m4atwd4" path="res://volumetric_waves.gdshader" id="3_hysyj"]
+[ext_resource type="Texture2D" uid="uid://d3y46rg3xw5bv" path="res://Keyboard Letters and Symbols.png" id="4_2d54b"]
+[ext_resource type="Script" uid="uid://bkra38etdh47l" path="res://keys.gd" id="5_5ewh4"]
 [ext_resource type="AudioStream" uid="uid://3anoi7pe0oio" path="res://wave.ogg" id="5_f8bmd"]
 [ext_resource type="Script" uid="uid://d3y0wklf13l6n" path="res://music_controller.gd" id="6_4sxhh"]
 [ext_resource type="Script" uid="uid://k65m3d8v3ewm" path="res://shader_controller.gd" id="7_uej3w"]
 [ext_resource type="Script" uid="uid://b334wvs0knpo6" path="res://enemy_spawner.gd" id="8_jrdne"]
 [ext_resource type="Script" uid="uid://diwcc4yx3t24r" path="res://game_manager.gd" id="10_cjdhp"]
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ex7g5"]
-particle_flag_disable_z = true
-spread = 112.771
-initial_velocity_min = 155.17
-initial_velocity_max = 281.61
-angular_velocity_min = -1.60933e-05
-angular_velocity_max = 513.1
-gravity = Vector3(0, -20, 0)
-linear_accel_min = -2.23517e-06
-linear_accel_max = 27.59
-scale_min = 0.05
-scale_max = 0.2
-color = Color(1, 0.87, 0.987, 1)
-hue_variation_min = -0.16
-hue_variation_max = 0.11
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f8bmd"]
 shader = ExtResource("3_hysyj")
@@ -48,29 +34,31 @@ height = 648
 seamless = true
 noise = SubResource("FastNoiseLite_4sxhh")
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ex7g5"]
+particle_flag_disable_z = true
+spread = 112.771
+initial_velocity_min = 155.17
+initial_velocity_max = 281.61
+angular_velocity_min = -1.60933e-05
+angular_velocity_max = 513.1
+gravity = Vector3(0, -20, 0)
+linear_accel_min = -2.23517e-06
+linear_accel_max = 27.59
+scale_min = 0.05
+scale_max = 0.2
+color = Color(1, 0.87, 0.987, 1)
+hue_variation_min = -0.16
+hue_variation_max = 0.11
+
+[sub_resource type="LabelSettings" id="LabelSettings_cjdhp"]
+font_size = 40
+shadow_size = 5
+shadow_color = Color(0, 0, 0, 0.65098)
+
 [node name="WaveScroller" type="Node2D" node_paths=PackedStringArray("sprite", "exhaust_particle")]
 script = ExtResource("1_ex7g5")
 sprite = NodePath("Player/Icon")
 exhaust_particle = NodePath("Player/Icon/GPUParticles2D")
-
-[node name="Player" type="Node2D" parent="." node_paths=PackedStringArray("enemy_spawner", "positions")]
-script = ExtResource("2_bnwxl")
-enemy_spawner = NodePath("../EnemySpawner")
-positions = [NodePath("../Marker1"), NodePath("../Marker2"), NodePath("../Marker3"), NodePath("../Marker4"), NodePath("../Marker5")]
-
-[node name="Icon" type="Sprite2D" parent="Player"]
-z_index = 1
-texture = ExtResource("2_fwhko")
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Player/Icon"]
-z_index = 2
-rotation = 1.5708
-amount = 75
-amount_ratio = 0.219
-texture = ExtResource("2_fwhko")
-process_material = SubResource("ParticleProcessMaterial_ex7g5")
-
-[node name="AudioListener2D" type="AudioListener2D" parent="Player/Icon"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -7
@@ -111,12 +99,70 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("NoiseTexture2D_uej3w")
 
+[node name="D" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(1090, 599)
+scale = Vector2(2, 2)
+texture = ExtResource("4_2d54b")
+hframes = 8
+vframes = 14
+frame = 19
+script = ExtResource("5_5ewh4")
+key_code = 68
+
+[node name="W" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(1065, 579)
+scale = Vector2(2, 2)
+texture = ExtResource("4_2d54b")
+hframes = 8
+vframes = 14
+frame = 38
+script = ExtResource("5_5ewh4")
+key_code = 87
+
+[node name="A" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(1040, 599)
+scale = Vector2(2, 2)
+texture = ExtResource("4_2d54b")
+hframes = 8
+vframes = 14
+frame = 16
+script = ExtResource("5_5ewh4")
+key_code = 65
+
+[node name="Player" type="Node2D" parent="." node_paths=PackedStringArray("enemy_spawner", "positions")]
+script = ExtResource("2_bnwxl")
+enemy_spawner = NodePath("../EnemySpawner")
+positions = [NodePath("../Marker1"), NodePath("../Marker2"), NodePath("../Marker3"), NodePath("../Marker4"), NodePath("../Marker5")]
+
+[node name="Icon" type="Sprite2D" parent="Player"]
+z_index = 1
+texture = ExtResource("2_fwhko")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Player/Icon"]
+z_index = 2
+position = Vector2(0, 47)
+rotation = 1.5708
+amount = 75
+amount_ratio = 0.219
+texture = ExtResource("2_fwhko")
+process_material = SubResource("ParticleProcessMaterial_ex7g5")
+
+[node name="AudioListener2D" type="AudioListener2D" parent="Player/Icon"]
+
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_f8bmd")
 autoplay = true
 parameters/looping = true
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("enemy_spawner", "main", "music_controller", "shader_controller", "wave_label")]
+script = ExtResource("10_cjdhp")
+enemy_spawner = NodePath("../EnemySpawner")
+main = NodePath("..")
+music_controller = NodePath("../MusicController")
+shader_controller = NodePath("../ShaderController")
+wave_label = NodePath("../Alerts/Control/WaveLabel")
 
 [node name="MusicController" type="Node" parent="." node_paths=PackedStringArray("main_loop")]
 script = ExtResource("6_4sxhh")
@@ -134,23 +180,39 @@ main = NodePath("..")
 wave_scene = NodePath("../CanvasLayer/SubViewportContainer/SubViewport/WaveScene")
 
 [node name="Marker1" type="Marker2D" parent="."]
-position = Vector2(-215, -71)
+position = Vector2(-240, -71)
 rotation = 0.47822
 
 [node name="Marker2" type="Marker2D" parent="."]
-position = Vector2(-108, 0)
+position = Vector2(-140, -20)
 rotation = 0.23911
 
 [node name="Marker3" type="Marker2D" parent="."]
 position = Vector2(0, 64)
 
 [node name="Marker4" type="Marker2D" parent="."]
-position = Vector2(108, 0)
+position = Vector2(140, 0)
 rotation = -0.23911
 
 [node name="Marker5" type="Marker2D" parent="."]
-position = Vector2(215, -71)
+position = Vector2(240, -71)
 rotation = -0.47822
 
-[node name="GameManager" type="Node" parent="."]
-script = ExtResource("10_cjdhp")
+[node name="Alerts" type="CanvasLayer" parent="."]
+
+[node name="Control" type="CenterContainer" parent="Alerts"]
+z_index = 12
+z_as_relative = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WaveLabel" type="Label" parent="Alerts/Control"]
+visible = false
+layout_mode = 2
+text = "adasdfwfee"
+label_settings = SubResource("LabelSettings_cjdhp")
+horizontal_alignment = 1
+vertical_alignment = 1

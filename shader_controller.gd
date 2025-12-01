@@ -33,3 +33,4 @@ func _process(delta):
 	#wave_material.set_shader_parameter("wobble_intensity", wobble_intensity)
 	#wave_material.set_shader_parameter("slide_speed", slide_speed)
 	wave_material.set_shader_parameter("bpm", bpm)
+	wave_material.set_shader_parameter("progress", main.progress)

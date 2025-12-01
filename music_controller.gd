@@ -3,20 +3,27 @@ class_name MusicController
 @export var main_loop: AudioStreamPlayer
 const main_track := preload("res://wave.ogg")
 
+signal bar_started
+
 # when progress is at end, go to start time
 var loop_windows = [[0,32], [10, 14], [18, 22], [26, 30]] # [end, start]
 var loop = 0
 var label: Label
+var current_bar = 0
 
 func _ready():
 	var bar_length = main_track.loop_offset
 	# go_to_bar(main_loop, 30)
-	label = Label.new()
-	$"../CanvasLayer/VBoxContainer".add_child(label)
+	if OS.is_debug_build():
+		label = Label.new()
+		$"../CanvasLayer/VBoxContainer".add_child(label)
 
 func _process(delta):
 	var loop_time = bar_to_time(main_loop, loop_windows[loop][1])
-	var current_bar = time_to_bar(main_loop, main_loop.get_playback_position())
+	var bar = time_to_bar(main_loop, main_loop.get_playback_position())
+	if bar != current_bar:
+		bar_started.emit(bar)
+	current_bar = bar
 	if main_loop.playing and current_bar == loop_time:
 		go_to_bar(main_loop, loop_windows[loop][0])
 	label.text = "Loop bar: %s" % loop_windows[loop][1]

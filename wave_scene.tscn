@@ -16,6 +16,8 @@ shader_parameter/curvature = 300.0
 shader_parameter/bpm = 130.0
 shader_parameter/bounce_psec = 0.1
 shader_parameter/music_effect = 0.05
+shader_parameter/time_offset = 0.0
+shader_parameter/progress = 0.0
 shader_parameter/water = ExtResource("2_oujlm")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_oujlm"]
@@ -50,7 +52,6 @@ mesh = SubResource("PlaneMesh_oujlm")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(-4.37114e-08, -0.0941083, -0.995562, 0, 0.995562, -0.0941083, 1, -4.11361e-09, -4.35174e-08, 0, 7.84654, 0)
 fov = 101.0
-far = 94.06
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Camera3D"]
 light_energy = 4.232
