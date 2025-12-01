@@ -3,10 +3,14 @@ class_name Main
 
 @export var sprite: Sprite2D
 @export var exhaust_particle: GPUParticles2D
+@export var player: Player
+@export var score_label: Label
+@export var spedometer: ProgressBar
+@export var spedometer_label: Label
 
 
 const _amplitude = 30.0
-const _wave = 3.0
+const _wave = 6.0
 const _wave_length = 6.0
 const _speed_limit = 8.0
 const _unit = 100.0
@@ -39,16 +43,20 @@ func _ready():
 			$CanvasLayer/VBoxContainer.add_child(label)
 			labels[property] = label
 	
+	player.damage_taken.connect(func():
+		progress -= speed * 5
+		speed /= 2)
+	
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var msec = Time.get_ticks_msec() * 0.0001
+	var msec = Time.get_ticks_msec() * 0.001
 	progress += speed * delta
 	sprite.position.y = sin(progress / wave_length * y_seed)
-	sprite.offset.y = sin(msec * x_seed * speed) * _wave
+	sprite.offset.y = sin(msec * x_seed * speed) * _wave * sqrt(speed)
 	sprite.position.x = sin(progress / wave_length * x_seed) * amplitude
-	sprite.offset.x = sin(msec * y_seed * speed) * _wave
+	sprite.offset.x = sin(msec * y_seed * speed) * _wave * sqrt(speed / 2)
 	wave_length = _wave_length * progress / (_unit + progress) + _wave_length
 	amplitude = _amplitude * (progress) / (_unit + progress) + _wave
 	speed_limit = _speed_limit + (progress / _unit)
@@ -68,6 +76,22 @@ func _process(delta):
 	for property in labels.keys():
 		var value = snapped(get(property), 0.01) if property != "accelerating" else get(property)
 		labels[property].text = "%s: %s" % [property, str(value)]
+	
+	var score_text = []
+	var score = int(progress)
+	var i = 0
+	while i < len(score_label.text):
+		score_text.append(str(score % 10))
+		score = floori(score/10)
+		i += 1
+	score_text.reverse()
+	score_label.text = "".join(score_text)
+	spedometer.max_value = speed_limit
+	spedometer.value = speed
+	spedometer_label.label_settings.font_size = 20 * clamp(2 * speed / _speed_limit, 1.0, 3.0)
+	spedometer_label.text = str(snappedf(speed, 0.01))
+	
+	
 
 func _input(event):
 	if not $GameManager.game_started:
@@ -78,3 +102,9 @@ func _input(event):
 	elif event.is_action_released("accelerate") and not Input.is_action_pressed("accelerate"):
 		accelerating = false
 		exhaust_particle.amount_ratio = 0.3
+
+func end_animation():
+	var tween := get_tree().create_tween()
+	tween.tween_property(player, "position", Vector2(0, -200), 6.0)
+	tween.parallel().tween_property(player, "scale", Vector2(0.1, 0.1), 6.0)
+	tween.play()

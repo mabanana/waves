@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d4aulvtwamx5t"
+path="res://.godot/imported/DSGNImpt_EXPLOSION-Bit Bomb_HY_PC-003.wav-63aa0c07860b5232770cc7c0620577f0.sample"
+
+[deps]
+
+source_file="res://DSGNImpt_EXPLOSION-Bit Bomb_HY_PC-003.wav"
+dest_files=["res://.godot/imported/DSGNImpt_EXPLOSION-Bit Bomb_HY_PC-003.wav-63aa0c07860b5232770cc7c0620577f0.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

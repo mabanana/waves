@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c72l75yy5r0bq"]
+[gd_scene load_steps=23 format=3 uid="uid://c72l75yy5r0bq"]
 
 [ext_resource type="Script" uid="uid://0o1va8if8h8w" path="res://wave_scroller.gd" id="1_ex7g5"]
 [ext_resource type="Script" uid="uid://bh016xjcphhjp" path="res://player.gd" id="2_bnwxl"]
@@ -12,6 +12,15 @@
 [ext_resource type="Script" uid="uid://k65m3d8v3ewm" path="res://shader_controller.gd" id="7_uej3w"]
 [ext_resource type="Script" uid="uid://b334wvs0knpo6" path="res://enemy_spawner.gd" id="8_jrdne"]
 [ext_resource type="Script" uid="uid://diwcc4yx3t24r" path="res://game_manager.gd" id="10_cjdhp"]
+[ext_resource type="AudioStream" uid="uid://d4aulvtwamx5t" path="res://DSGNImpt_EXPLOSION-Bit Bomb_HY_PC-003.wav" id="13_35gux"]
+[ext_resource type="AudioStream" uid="uid://dduqwcu1r6xx2" path="res://DSGNImpt_EXPLOSION-Magisplosion_HY_PC-004.wav" id="14_l34ok"]
+
+[sub_resource type="SystemFont" id="SystemFont_35gux"]
+font_names = PackedStringArray("Monospace")
+
+[sub_resource type="LabelSettings" id="LabelSettings_l34ok"]
+font = SubResource("SystemFont_35gux")
+font_size = 50
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_f8bmd"]
 shader = ExtResource("3_hysyj")
@@ -34,6 +43,8 @@ height = 648
 seamless = true
 noise = SubResource("FastNoiseLite_4sxhh")
 
+[sub_resource type="LabelSettings" id="LabelSettings_35gux"]
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ex7g5"]
 particle_flag_disable_z = true
 spread = 112.771
@@ -55,13 +66,23 @@ font_size = 40
 shadow_size = 5
 shadow_color = Color(0, 0, 0, 0.65098)
 
-[node name="WaveScroller" type="Node2D" node_paths=PackedStringArray("sprite", "exhaust_particle")]
+[node name="WaveScroller" type="Node2D" node_paths=PackedStringArray("sprite", "exhaust_particle", "player", "score_label", "spedometer", "spedometer_label")]
 script = ExtResource("1_ex7g5")
 sprite = NodePath("Player/Icon")
 exhaust_particle = NodePath("Player/Icon/GPUParticles2D")
+player = NodePath("Player")
+score_label = NodePath("CanvasLayer/SCORE")
+spedometer = NodePath("CanvasLayer/Spedometer")
+spedometer_label = NodePath("CanvasLayer/Spedometer/Label")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -7
+
+[node name="SCORE" type="Label" parent="CanvasLayer"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "00000000"
+label_settings = SubResource("LabelSettings_l34ok")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
 anchors_preset = 4
@@ -99,16 +120,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("NoiseTexture2D_uej3w")
 
-[node name="D" type="Sprite2D" parent="CanvasLayer"]
-position = Vector2(1090, 599)
-scale = Vector2(2, 2)
-texture = ExtResource("4_2d54b")
-hframes = 8
-vframes = 14
-frame = 19
-script = ExtResource("5_5ewh4")
-key_code = 68
-
 [node name="W" type="Sprite2D" parent="CanvasLayer"]
 position = Vector2(1065, 579)
 scale = Vector2(2, 2)
@@ -118,6 +129,16 @@ vframes = 14
 frame = 38
 script = ExtResource("5_5ewh4")
 key_code = 87
+
+[node name="D" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(1090, 599)
+scale = Vector2(2, 2)
+texture = ExtResource("4_2d54b")
+hframes = 8
+vframes = 14
+frame = 19
+script = ExtResource("5_5ewh4")
+key_code = 68
 
 [node name="A" type="Sprite2D" parent="CanvasLayer"]
 position = Vector2(1040, 599)
@@ -129,10 +150,41 @@ frame = 16
 script = ExtResource("5_5ewh4")
 key_code = 65
 
-[node name="Player" type="Node2D" parent="." node_paths=PackedStringArray("enemy_spawner", "positions")]
+[node name="Spedometer" type="ProgressBar" parent="CanvasLayer"]
+custom_minimum_size = Vector2(200, 0)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -100.0
+offset_top = 30.0
+offset_right = 100.0
+offset_bottom = 57.0
+grow_horizontal = 2
+show_percentage = false
+
+[node name="Label" type="Label" parent="CanvasLayer/Spedometer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_35gux")
+horizontal_alignment = 1
+
+[node name="Player" type="Node2D" parent="." node_paths=PackedStringArray("enemy_spawner", "music_controller", "positions", "camera", "wave_scene")]
 script = ExtResource("2_bnwxl")
 enemy_spawner = NodePath("../EnemySpawner")
+music_controller = NodePath("../MusicController")
 positions = [NodePath("../Marker1"), NodePath("../Marker2"), NodePath("../Marker3"), NodePath("../Marker4"), NodePath("../Marker5")]
+camera = NodePath("../Camera2D")
+wave_scene = NodePath("../CanvasLayer/SubViewportContainer/SubViewport/WaveScene")
 
 [node name="Icon" type="Sprite2D" parent="Player"]
 z_index = 1
@@ -216,3 +268,9 @@ text = "adasdfwfee"
 label_settings = SubResource("LabelSettings_cjdhp")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Damage" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_35gux")
+
+[node name="NextWave" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_l34ok")

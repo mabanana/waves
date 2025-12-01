@@ -27,7 +27,7 @@ func spawn_enemy():
 	var marker = markers[marker_index]
 	var marker_offset = (marker.position - markers[2].position) / 60.0
 	var new_enemy := enemy_mesh.instantiate()
-	new_enemy.position = marker.position + Vector3.UP * 40
+	new_enemy.position = marker.position + Vector3.UP * 15
 	wave_scene.add_child(new_enemy)
 	var tween := get_tree().create_tween()
 	tween.set_trans(Tween.TRANS_QUAD)

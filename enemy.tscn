@@ -23,3 +23,7 @@ mesh = SubResource("BoxMesh_iifgy")
 script = ExtResource("2_4gyqm")
 volatility = 5.0
 ang_speed = 1.0
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+omni_range = 8.278
+omni_attenuation = 0.798

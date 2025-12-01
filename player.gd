@@ -1,9 +1,14 @@
 extends Node2D
+class_name Player
 
 signal damage_taken
 
 @export var enemy_spawner: EnemySpawner
+@export var music_controller: MusicController
 @export var positions: Array[Marker2D]
+@export var camera: Camera2D
+@export var wave_scene: WaveScene
+@onready var camera3: Camera3D = wave_scene.camera
 
 var curr = 2
 var speed := 3.0
@@ -12,10 +17,15 @@ var dir = 0
 var l = false
 var r = false
 
+@onready var fov = camera3.fov
+
 func _ready():
 	position = positions[2].position
 	enemy_spawner.enemy_tween_finished.connect(_on_enemy_tween_finished)
-	
+	damage_taken.connect($"../Damage".play)
+	music_controller.beat_started.connect(func(beat):
+		if $"../GameManager".game_started:
+			start_camera_shake(0.075))
 
 func _input(event):	
 	if event.is_action_pressed("left"):
@@ -57,4 +67,18 @@ func _on_enemy_tween_finished(marker_index):
 		if dist < min_dist:
 			player_indexes.append(i)
 	if marker_index in player_indexes:
-		print("You've been hit")
+		damage_taken.emit()
+		start_camera_shake(1.0)
+
+func start_camera_shake(time: float):
+	var camera_tween = get_tree().create_tween()
+	camera_tween.tween_method(_camera_shake, 10.0*time, 0.2, time)
+	return camera_tween.finished
+func _camera_shake(intensity: float):
+	var noise := FastNoiseLite.new()
+	var camera_offset = noise.get_noise_1d(Time.get_ticks_msec()) * intensity
+	camera.offset.x = camera_offset * randi_range(-1,1)
+	camera.offset.y = camera_offset * randi_range(-1,1)
+	camera3.h_offset = camera_offset * randi_range(-1,1)
+	camera3.v_offset = camera_offset * randi_range(-1,1)
+	
